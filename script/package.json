@@ -1,0 +1,59 @@
+{
+  "name": "anchor-ai",
+  "version": "0.1.0",
+  "description": "Design skills for AI coding agents. Anchor your UI to a precise visual language.",
+  "type": "module",
+  "bin": {
+    "anchor": "./bin/anchor.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/",
+    "test": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist/",
+    "bin/"
+  ],
+  "keywords": [
+    "ai",
+    "ui",
+    "design-system",
+    "design-tokens",
+    "css",
+    "claude",
+    "claude-code",
+    "copilot",
+    "cursor",
+    "accessibility",
+    "a11y",
+    "skill"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anchorai/anchor-ai"
+  },
+  "homepage": "https://anchor.ai",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "prompts": "^2.4.2",
+    "picocolors": "^1.1.0",
+    "fast-glob": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/prompts": "^2.4.9",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "eslint": "^9.0.0"
+  }
+}
