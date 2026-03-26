@@ -2,23 +2,17 @@
 
 Interactive CLI for generating design token skill files. Walk through a guided wizard to define your design system — style, rhythm, whitespace, color, motion, accessibility — then fine-tune individual tokens and export a ready-to-use `.md` skill file.
 
-## Quick Start
-
-```bash
-npx @anchor-org/anchor-cli
-```
-
 ## Install
 
 ```bash
-npm install --global @anchor-org/anchor-cli
+npm install --global @anchor-org/cli
 ```
 
 Then run it anywhere:
 
 ```bash
 anchor
-anchor-cli --name "My Brand"
+anchor --name "My Brand"
 ```
 
 ## Options
