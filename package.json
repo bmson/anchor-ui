@@ -1,6 +1,6 @@
 {
   "name": "@anchor-org/anchor-cli",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "bin": {
     "anchor-cli": "dist/cli.js"
