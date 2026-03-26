@@ -1,24 +1,24 @@
-# Anchor AI
+# Anchor CLI
 
 Interactive CLI for generating design token skill files. Walk through a guided wizard to define your design system — style, rhythm, whitespace, color, motion, accessibility — then fine-tune individual tokens and export a ready-to-use `.md` skill file.
 
 ## Quick Start
 
 ```bash
-npx anchor-ai
+npx @anchor-org/cli
 ```
 
 ## Install
 
 ```bash
-npm install --global anchor-ai
+npm install --global @anchor-org/cli
 ```
 
 Then run it anywhere:
 
 ```bash
-anchor-ai
-anchor-ai --name "My Brand"
+anchor
+anchor --name "My Brand"
 ```
 
 ## Options

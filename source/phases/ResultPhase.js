@@ -9,7 +9,7 @@ export const ResultPhase = ({ targetPath = 'anchor.md' }) => (
   <Box flexDirection="column" padding={1}>
     <Text>
       <Text color="cyan" bold>⛊ </Text>
-      <Text color="white" bold>ANCHOR AI</Text>
+      <Text color="white" bold>ANCHOR CLI</Text>
     </Text>
 
     <Text dimColor> design token</Text>

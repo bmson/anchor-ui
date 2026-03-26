@@ -1,8 +1,10 @@
 {
-  "name": "anchor-ai",
+  "name": "@anchor-org/cli",
   "version": "0.0.0",
   "license": "MIT",
-  "bin": "dist/cli.js",
+  "bin": {
+    "anchor": "dist/cli.js"
+  },
   "type": "module",
   "engines": {
     "node": ">=16"
@@ -11,7 +13,7 @@
     "build": "node esbuild.config.js",
     "dev": "node esbuild.config.js --watch",
     "link": "npm run build && npm link",
-    "unlink": "npm unlink -g anchor-ai",
+    "unlink": "npm unlink -g @anchor-org/cli",
     "prepublishOnly": "npm run build"
   },
   "files": [
@@ -22,7 +24,8 @@
     "react": "^18.2.0"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "devDependencies": {
     "esbuild": "^0.27.4"

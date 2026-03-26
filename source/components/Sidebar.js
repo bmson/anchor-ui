@@ -21,7 +21,7 @@ export const Sidebar = ({ current, buildPhase, wizardSteps = [], tokenSteps = []
       <Box marginBottom={1} flexDirection="column">
         <Box>
           <Text color="cyan" bold>⛊ </Text>
-          <Text color="white" bold>ANCHOR AI</Text>
+          <Text color="white" bold>ANCHOR CLI</Text>
         </Box>
         <Text dimColor> design system</Text>
         <Text dimColor>{'─'.repeat(20)}</Text>
