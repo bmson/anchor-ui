@@ -7,7 +7,6 @@ import { ColorPicker }    from '../components/ColorPicker.js';
 import { TokenPicker }    from '../components/TokenPicker.js';
 import { TokenEditor }    from '../components/TokenEditor.js';
 
-// Map each token's uiType to the corresponding input component
 const UI_COMPONENTS =
   { color:  ColorPicker
   , slider: InputRange
@@ -25,22 +24,15 @@ export const ModifyPhase = ({
   setCustomMode,
 }) => {
 
-  // Extract the current token properties to pass down to the input component
   const { uiType, key, ...tokenProps } = TOKENS_TO_EDIT[tokenIndex];
+  const Component = UI_COMPONENTS[uiType];
+  const isLast    = tokenIndex + 1 >= TOKENS_TO_EDIT.length;
 
-  // Dynamically select the appropriate input component based on the token's uiType
-  const Component  = UI_COMPONENTS[uiType];
-  const isLastToken = tokenIndex + 1 >= TOKENS_TO_EDIT.length;
+  const onSubmit = (value) => {
+    setDataObject({ ...dataObject, [key]: value });
 
-  // Handler for when the user submits a new value for the current token
-  const onSubmit = (newValue) => {
-    setDataObject({ ...dataObject, [key]: newValue });
-
-    if (isLastToken) {
-      setBuildPhase('REVIEW');
-    } else {
-      setTokenIndex(tokenIndex + 1);
-    }
+    if (isLast) setBuildPhase('REVIEW');
+    else        setTokenIndex(tokenIndex + 1);
   };
 
   return (

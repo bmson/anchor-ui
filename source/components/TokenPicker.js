@@ -8,7 +8,7 @@ import { InputText }     from './SharedItems.js';
 import { InputSelect }   from './SharedItems.js';
 
 /**
- * Aesthetic picker for design tokens with custom value support
+ * Token picker with preset and custom value support
  */
 export const TokenPicker = ({ label, tokenKey, initialValue, onSubmit, setCustomMode }) => {
 

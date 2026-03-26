@@ -9,7 +9,7 @@ import { getSliderLayout } from './utilities.js';
 const TRACK_WIDTH = 22;
 
 /**
- * A keyboard-navigable range input (slider)
+ * Keyboard-navigable range input (slider)
  */
 export const InputRange = ({
   label,
@@ -21,12 +21,10 @@ export const InputRange = ({
 
   const [val, setVal] = useState(initialValue);
 
-  // Sync state if initialValue changes externally
   useEffect(() => setVal(initialValue), [initialValue]);
 
   useInput((_, key) => {
-    const mult  = key.shift ? 5 : 1;
-    const delta = step * mult;
+    const delta = step * (key.shift ? 5 : 1);
 
     const nav =
       { leftArrow:  () => setVal(v => clamp(v - delta, min, max))

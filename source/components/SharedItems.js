@@ -6,7 +6,7 @@ import { clamp }       from './utilities.js';
 import { formatLabel } from './utilities.js';
 
 /**
- * A refined selectable item with support for descriptions and icons
+ * Selectable item with support for descriptions
  */
 export const SelectionItem = ({ label, description, isSelected, isButton = false }) => {
 
@@ -29,14 +29,11 @@ export const SelectionItem = ({ label, description, isSelected, isButton = false
 
 };
 
-/**
- * Semantic aliases for SelectionItem
- */
 export const OptionItem = (props) => <SelectionItem {...props} />;
 export const ButtonItem = (props) => <SelectionItem {...props} isButton />;
 
 /**
- * Keyboard-navigable list with declarative navigation logic
+ * Keyboard-navigable list with declarative navigation
  */
 export const InputSelect = ({
   items = [],
@@ -76,7 +73,7 @@ export const InputSelect = ({
 };
 
 /**
- * Single-line text entry with refined visual cursor
+ * Single-line text entry with visual cursor
  */
 export const InputText = ({
   value = '',

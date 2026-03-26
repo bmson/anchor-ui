@@ -18,30 +18,28 @@ export const DefinePhase = ({
   setBuildPhase,
 }) => {
 
-  const activeStep = WIZARD_STEPS[guideIndex];
+  const step = WIZARD_STEPS[guideIndex];
 
-  // Handle selection of a wizard option and progress to next step
   const handleSelect = (item) => {
-    const cleanValue  = item.value.replace(' (Recommended)', '');
-    let newDataObject = { ...dataObject };
+    const choice = item.value.replace(' (Recommended)', '');
+    let   next   = { ...dataObject };
 
-    // Auto-inject defaults and styles if it's the first step (Style Selection)
-    if (activeStep.key === 'STYLE_NAME') {
-      const styleConfig = DESIGN_DATA.styles[cleanValue];
-      newDataObject =
-        { ...newDataObject
+    // Inject full style config on the first step
+    if (step.key === 'STYLE_NAME') {
+      const style = DESIGN_DATA.styles[choice];
+      next =
+        { ...next
         , ...DESIGN_DATA.defaults
-        , ...styleConfig.tokens
-        , ...styleConfig.recommended
-        , STYLE_NAME: name || cleanValue
+        , ...style.tokens
+        , ...style.recommended
+        , STYLE_NAME: name || choice
         };
     } else {
-      newDataObject[activeStep.key] = cleanValue;
+      next[step.key] = choice;
     }
 
-    setDataObject(newDataObject);
+    setDataObject(next);
 
-    // Progress to next wizard step or move to summary phase
     if (guideIndex + 1 < WIZARD_STEPS.length) {
       setGuideIndex(guideIndex + 1);
     } else {
@@ -49,15 +47,14 @@ export const DefinePhase = ({
     }
   };
 
-  // Map wizard choices to SelectInput items with descriptions
-  const selectItems = activeStep.choices.map((choice) => {
-    const isRecommended = dataObject[activeStep.key] === choice && guideIndex > 0;
+  const items = step.choices.map((choice) => {
+    const recommended = dataObject[step.key] === choice && guideIndex > 0;
 
-    const description = activeStep.key === 'STYLE_NAME'
+    const description = step.key === 'STYLE_NAME'
       ? DESIGN_DATA.styles[choice]?.tokens?.STYLE_PHILOSOPHY || ''
-      : DESIGN_DESCRIPTIONS[activeStep.key]?.[choice] || '';
+      : DESIGN_DESCRIPTIONS[step.key]?.[choice] || '';
 
-    return { label: isRecommended ? `${choice} (Recommended)` : choice
+    return { label: recommended ? `${choice} (Recommended)` : choice
            , value: choice
            , description
            };
@@ -65,7 +62,7 @@ export const DefinePhase = ({
 
   const initialIndex = Math.max(
     0,
-    selectItems.findIndex((item) => item.label.includes('(Recommended)')),
+    items.findIndex((item) => item.label.includes('(Recommended)')),
   );
 
   return (
@@ -79,12 +76,12 @@ export const DefinePhase = ({
 
       <Box flexDirection="column" flexGrow={1}>
         <Box marginBottom={1}>
-          <Text bold color="white">{activeStep.title}</Text>
+          <Text bold color="white">{step.title}</Text>
         </Box>
 
         <InputSelect
           key={guideIndex}
-          items={selectItems}
+          items={items}
           initialIndex={initialIndex}
           onSelect={handleSelect}
           itemComponent={OptionItem}

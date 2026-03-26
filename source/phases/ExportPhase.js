@@ -14,21 +14,18 @@ export const ExportPhase = ({
   setTargetPath,
 }) => {
 
-  const isSkillNameStep = exportOpts.step === 0;
+  const isNaming = exportOpts.step === 0;
 
   const safeName = (exportOpts.skillName || dataObject.STYLE_NAME || 'Skill')
     .replace(/[^a-z0-9]/gi, '-')
     .toLowerCase();
 
-  const fileName = `${safeName}.md`;
-
-  // Generate the file and transition to the result phase
   const handleFinish = async () => {
     try {
-      const filePath = await generateFile(dataObject, exportOpts);
-      setTargetPath(filePath);
-    } catch (error) {
-      console.error('Error generating file:', error.message);
+      const path = await generateFile(dataObject, exportOpts);
+      setTargetPath(path);
+    } catch (err) {
+      console.error('Error generating file:', err.message);
     }
     setBuildPhase('DONE');
   };
@@ -36,7 +33,7 @@ export const ExportPhase = ({
   return (
     <Box flexDirection="row" padding={1}>
       <Sidebar
-        current={isSkillNameStep ? 1 : 2}
+        current={isNaming ? 1 : 2}
         buildPhase="EXPORT"
         wizardSteps={[{ key: 'skill_name' }, { key: 'save_directory' }]}
         tokenSteps={[]}
@@ -45,11 +42,11 @@ export const ExportPhase = ({
       <Box flexDirection="column" flexGrow={1}>
         <Box marginBottom={1}>
           <Text bold color="white">
-            {isSkillNameStep ? 'Skill Name' : 'Save Directory'}
+            {isNaming ? 'Skill Name' : 'Save Directory'}
           </Text>
         </Box>
 
-        {isSkillNameStep ? (
+        {isNaming ? (
           <Box flexDirection="column">
             <Text dimColor>Enter the name for this design skill</Text>
             <Box gap={0} marginTop={1}>
@@ -73,14 +70,14 @@ export const ExportPhase = ({
                 onChange={(val) => setExportOpts({ ...exportOpts, saveDir: val })}
                 onSubmit={handleFinish}
               />
-              <Text color="gray">/{fileName}</Text>
+              <Text color="gray">/{safeName}.md</Text>
             </Box>
           </Box>
         )}
 
         <Box marginTop={1}>
           <Text dimColor>
-            {isSkillNameStep
+            {isNaming
               ? `Press Enter to use "${dataObject.STYLE_NAME}"`
               : 'Press Enter to save in current directory'}
           </Text>

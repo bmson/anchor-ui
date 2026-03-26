@@ -12,7 +12,7 @@ const TRACK_WIDTH = 22;
 const CHANNELS    = ['r', 'g', 'b'];
 
 /**
- * A keyboard-navigable RGB color picker with table-driven logic
+ * Keyboard-navigable RGB color picker
  */
 export const ColorPicker = ({ label, initialValue, onSubmit }) => {
 
@@ -23,8 +23,7 @@ export const ColorPicker = ({ label, initialValue, onSubmit }) => {
   const hex    = `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
 
   useInput((_, key) => {
-    const mult  = key.shift ? 5 : 1;
-    const delta = STEP * mult;
+    const delta = STEP * (key.shift ? 5 : 1);
 
     const nav =
       { upArrow:    () => setIdx(i => Math.max(0, i - 1))
@@ -35,7 +34,6 @@ export const ColorPicker = ({ label, initialValue, onSubmit }) => {
       };
 
     const action = Object.keys(nav).find(k => key[k]);
-
     if (action) nav[action]();
   });
 
