@@ -63,9 +63,8 @@ export const DefinePhase = ({
            };
   });
 
-  const initialIndex = Math.max(
-    0,
-    items.findIndex((item) => item.label.includes('(Recommended)')),
+  const initialIndex = Math.max(0,
+    items.findIndex((item) => item.label.includes('(Recommended)'))
   );
 
   return (

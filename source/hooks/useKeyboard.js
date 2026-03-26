@@ -13,11 +13,16 @@ export const useKeyboard = ({
   exportOpts, setExportOpts,
 }) => {
 
+  // Escape is disabled during text entry and custom input
   const isTextToken = TOKENS_TO_EDIT[tokenIndex]?.uiType === 'text';
   const isExporting = buildPhase === 'EXPORT';
   const isTuning    = buildPhase === 'FINETUNE';
   const isFree      = !isExporting && !(isTuning && isTextToken) && !customMode;
 
+  /**
+   * Table-driven back navigation - each phase declares how to step back,
+   * reset to the previous phase's last step, or exit to a parent phase
+   */
   const stepBack =
     { WIZARD:   { when: guideIndex > 0,  set: setGuideIndex, to: guideIndex - 1 }
     , FINETUNE: { when: tokenIndex > 0,  set: setTokenIndex, to: tokenIndex - 1 }
@@ -34,6 +39,7 @@ export const useKeyboard = ({
     , EXPORT:   exportOpts.from || 'ASSESS'
     };
 
+  // Try each strategy in order: step within phase → reset index → exit phase
   const goBack = () => {
     const step  = stepBack[buildPhase];
     const reset = resetIndex[buildPhase];

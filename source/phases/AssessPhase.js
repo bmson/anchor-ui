@@ -16,7 +16,6 @@ export const AssessPhase = ({
   setBuildPhase,
 }) => {
 
-  // Summary of the wizard selections
   const summaryKeys =
     [ { key: 'style',      value: dataObject.STYLE_NAME }
     , { key: 'rhythm',     value: dataObject.RHYTHM_TYPE }
@@ -28,7 +27,6 @@ export const AssessPhase = ({
     , { key: 'a11y',       value: dataObject.A11Y_LEVEL }
     ];
 
-  // Color tokens for the swatch preview
   const palette =
     [ { key: 'primary',    value: dataObject.PRIMARY_COLOR }
     , { key: 'surface',    value: dataObject.SURFACE_COLOR }
@@ -81,7 +79,7 @@ export const AssessPhase = ({
 
         <InputSelect
           items={
-            [ { key: 'done', label: 'Export',            value: false }
+            [ { key: 'done', label: 'Export',           value: false }
             , { key: 'tune', label: 'Fine-tune tokens', value: true }
             ]}
           onSelect={handleSelect}

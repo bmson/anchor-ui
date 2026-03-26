@@ -2,7 +2,7 @@ import { Text }  from 'ink';
 import { isHex } from './utilities.js';
 
 /**
- * Inline color preview — hex swatch or plain text fallback
+ * Inline color preview - hex swatch or plain text fallback
  */
 export const ColorSwatch = ({ value }) => {
 

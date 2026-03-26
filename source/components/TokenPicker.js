@@ -15,7 +15,7 @@ export const TokenPicker = ({ label, tokenKey, initialValue, onSubmit, setCustom
   const [isCustom, setCustom]         = useState(false);
   const [customValue, setCustomValue] = useState('');
 
-  // Build the preset list — theme default first, then any known presets for this token
+  // Build the preset list - theme default first, then any known presets for this token
   const presets =
     [ { key:   'default'
       , label: 'Keep theme default'
