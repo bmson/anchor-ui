@@ -1,0 +1,26 @@
+{
+	"name": "anchor",
+	"version": "0.0.0",
+	"license": "MIT",
+	"bin": "dist/cli.js",
+	"type": "module",
+	"engines": {
+		"node": ">=16"
+	},
+	"scripts": {
+		"build": "npm run bundle",
+		"bundle": "esbuild source/cli.js --bundle --platform=node --format=esm --outfile=dist/cli.js --loader:.js=jsx --loader:.md=text --minify --banner:js=\"import { createRequire } from 'module'; const require = createRequire(import.meta.url);\" --alias:react-devtools-core=./source/shim.js",
+		"prepublishOnly": "npm run bundle",
+		"dev": "npm run bundle -- --watch"
+	},
+	"files": [
+		"dist"
+	],
+	"dependencies": {
+		"ink": "^5.2.1",
+		"react": "^18.2.0"
+	},
+	"devDependencies": {
+		"esbuild": "^0.27.4"
+	}
+}
