@@ -1,6 +1,11 @@
-import { useState }          from 'react';
-import { Box, Text, useInput } from 'ink';
-import { clamp, toRgb, toHex, getSliderLayout } from './utilities.js';
+import { useState }        from 'react';
+import { Box }             from 'ink';
+import { Text }            from 'ink';
+import { useInput }        from 'ink';
+import { clamp }           from './utilities.js';
+import { toRgb }           from './utilities.js';
+import { toHex }           from './utilities.js';
+import { getSliderLayout } from './utilities.js';
 
 const STEP        = 5;
 const TRACK_WIDTH = 22;
@@ -10,6 +15,7 @@ const CHANNELS    = ['r', 'g', 'b'];
  * A keyboard-navigable RGB color picker with table-driven logic
  */
 export const ColorPicker = ({ label, initialValue, onSubmit }) => {
+
   const [rgb, setRgb] = useState(() => toRgb(initialValue));
   const [idx, setIdx] = useState(0);
 
@@ -29,6 +35,7 @@ export const ColorPicker = ({ label, initialValue, onSubmit }) => {
       };
 
     const action = Object.keys(nav).find(k => key[k]);
+
     if (action) nav[action]();
   });
 
@@ -45,33 +52,30 @@ export const ColorPicker = ({ label, initialValue, onSubmit }) => {
         const { before, after } = getSliderLayout(val, 0, 255, TRACK_WIDTH);
 
         return (
-          <Box key={ch} marginBottom={i === 2 ? 0 : 0}>
-            {/* Channel Label */}
+          <Box key={ch}>
             <Box width={3}>
               <Text color={isActive ? 'cyan' : 'gray'} bold={isActive}>
                 {ch.toUpperCase()}
               </Text>
             </Box>
 
-            {/* Visual Track */}
             <Text color={isActive ? 'cyan' : 'gray'}>
               {before}
               <Text color={isActive ? 'white' : 'gray'}>●</Text>
               {after}
             </Text>
 
-            {/* Value Indicator */}
             <Box width={6} marginLeft={1}>
               <Text color={isActive ? 'white' : 'gray'}>
                 {String(val).padStart(3)}
               </Text>
             </Box>
 
-            {/* Real-time Color Preview */}
             <Text color={hex}> ███████</Text>
           </Box>
         );
       })}
     </Box>
   );
+
 };

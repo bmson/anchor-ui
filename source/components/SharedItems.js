@@ -1,11 +1,15 @@
-import { useState }      from 'react';
-import { Box, Text, useInput } from 'ink';
-import { clamp, formatLabel }  from './utilities.js';
+import { useState }    from 'react';
+import { Box }         from 'ink';
+import { Text }        from 'ink';
+import { useInput }    from 'ink';
+import { clamp }       from './utilities.js';
+import { formatLabel } from './utilities.js';
 
 /**
  * A refined selectable item with support for descriptions and icons
  */
 export const SelectionItem = ({ label, description, isSelected, isButton = false }) => {
+
   const color  = isSelected ? 'cyan' : 'white';
   const prefix = isSelected ? '→ '   : '  ';
   const name   = isButton   ? label.toUpperCase() : formatLabel(label);
@@ -22,9 +26,12 @@ export const SelectionItem = ({ label, description, isSelected, isButton = false
       )}
     </Box>
   );
+
 };
 
-// Aliases for backward compatibility or specific semantic use
+/**
+ * Semantic aliases for SelectionItem
+ */
 export const OptionItem = (props) => <SelectionItem {...props} />;
 export const ButtonItem = (props) => <SelectionItem {...props} isButton />;
 
@@ -38,6 +45,7 @@ export const InputSelect = ({
   itemComponent: Item = SelectionItem,
   isActive = true,
 }) => {
+
   const [index, setIndex] = useState(initialIndex);
 
   useInput((_, key) => {
@@ -64,6 +72,7 @@ export const InputSelect = ({
       ))}
     </Box>
   );
+
 };
 
 /**
@@ -77,6 +86,7 @@ export const InputText = ({
   limit = 30,
   isActive = true,
 }) => {
+
   useInput((input, key) => {
     if (!isActive) return;
 
@@ -85,9 +95,7 @@ export const InputText = ({
     if (key.delete)    return onChange(value.slice(0, -1));
 
     const isChar = input && !key.ctrl && !key.meta && input.length === 1;
-    if (isChar && value.length < limit) {
-      onChange(value + input);
-    }
+    if (isChar && value.length < limit) onChange(value + input);
   });
 
   return (
@@ -97,4 +105,5 @@ export const InputText = ({
       {isActive && <Text color="cyan">┃</Text>}
     </Box>
   );
+
 };

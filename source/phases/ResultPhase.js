@@ -5,6 +5,7 @@ import { Text } from 'ink';
  * Display the success message and export path
  */
 export const ResultPhase = ({ targetPath = 'anchor.md' }) => (
+
   <Box flexDirection="column" padding={1}>
     <Text>
       <Text color="cyan" bold>⛊ </Text>
@@ -19,6 +20,7 @@ export const ResultPhase = ({ targetPath = 'anchor.md' }) => (
 
     <Text dimColor>{'\n'}(Press Ctrl+C to exit)</Text>
   </Box>
+
 );
 
 ResultPhase.UID = 'DONE';

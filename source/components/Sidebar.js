@@ -1,4 +1,5 @@
-import { Box, Text }   from 'ink';
+import { Box }         from 'ink';
+import { Text }        from 'ink';
 import { formatLabel } from './utilities.js';
 
 const PHASE_LABELS =
@@ -11,6 +12,7 @@ const PHASE_LABELS =
  * Aesthetic Sidebar for displaying current phase and steps
  */
 export const Sidebar = ({ current, buildPhase, wizardSteps = [], tokenSteps = [] }) => {
+
   const label      = PHASE_LABELS[buildPhase] || 'process';
   const reviewStep = { key: 'review', label: 'review' };
 
@@ -55,4 +57,5 @@ export const Sidebar = ({ current, buildPhase, wizardSteps = [], tokenSteps = []
       })}
     </Box>
   );
+
 };

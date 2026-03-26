@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { Box, Text } from 'ink';
+import { useState }  from 'react';
+import { Box }       from 'ink';
+import { Text }      from 'ink';
 import { InputText } from './SharedItems.js';
 
 /**
  * Aesthetic wrapper for design token text input
  */
 export const TokenEditor = ({ label, initialValue = '', onSubmit }) => {
-  const [val, setVal] = useState(initialValue);
+
+  const [value, setValue] = useState(initialValue);
 
   return (
     <Box flexDirection="column" width={60}>
@@ -16,12 +18,13 @@ export const TokenEditor = ({ label, initialValue = '', onSubmit }) => {
 
       <Box gap={1} marginBottom={1}>
         <Text color="cyan" bold>→</Text>
-        <InputText 
-          value={val} 
-          onChange={setVal} 
-          onSubmit={() => onSubmit(val)} 
+        <InputText
+          value={value}
+          onChange={setValue}
+          onSubmit={onSubmit}
         />
       </Box>
     </Box>
   );
+
 };

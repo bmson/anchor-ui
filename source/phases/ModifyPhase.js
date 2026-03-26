@@ -7,7 +7,7 @@ import { ColorPicker }    from '../components/ColorPicker.js';
 import { TokenPicker }    from '../components/TokenPicker.js';
 import { TokenEditor }    from '../components/TokenEditor.js';
 
-// Map each tokens uiType to the corresponding input component
+// Map each token's uiType to the corresponding input component
 const UI_COMPONENTS =
   { color:  ColorPicker
   , slider: InputRange
@@ -18,20 +18,18 @@ const UI_COMPONENTS =
 /**
  * Fine-tuning of individual design tokens
  */
-export function ModifyPhase({
+export const ModifyPhase = ({
   tokenIndex, setTokenIndex,
   dataObject, setDataObject,
   setBuildPhase,
   setCustomMode,
-}) {
+}) => {
 
   // Extract the current token properties to pass down to the input component
   const { uiType, key, ...tokenProps } = TOKENS_TO_EDIT[tokenIndex];
 
   // Dynamically select the appropriate input component based on the token's uiType
   const Component  = UI_COMPONENTS[uiType];
-
-  // Check if this is the last token to edit, so we know when to transition to the review phase
   const isLastToken = tokenIndex + 1 >= TOKENS_TO_EDIT.length;
 
   // Handler for when the user submits a new value for the current token
@@ -45,7 +43,6 @@ export function ModifyPhase({
     }
   };
 
-  // Render the sidebar and the dynamically selected input component for the current token
   return (
     <Box flexDirection="row" padding={1}>
       <Sidebar
@@ -65,6 +62,7 @@ export function ModifyPhase({
       </Box>
     </Box>
   );
-}
+
+};
 
 ModifyPhase.UID = 'FINETUNE';

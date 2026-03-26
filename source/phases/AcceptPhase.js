@@ -1,23 +1,22 @@
-import { Box }  from 'ink';
-import { Text } from 'ink';
-
+import { Box }            from 'ink';
+import { Text }           from 'ink';
 import { WIZARD_STEPS }   from '../data/wizardConfig.js';
 import { TOKENS_TO_EDIT } from '../data/wizardConfig.js';
-
-import { Sidebar }           from '../components/Sidebar.js';
-import { ButtonItem }        from '../components/SharedItems.js';
-import { InputSelect } from '../components/SharedItems.js';
-import { ColorSwatch }       from '../components/ColorSwatch.js';
-import { isHex } from '../components/utilities.js';
+import { Sidebar }        from '../components/Sidebar.js';
+import { ButtonItem }     from '../components/SharedItems.js';
+import { InputSelect }    from '../components/SharedItems.js';
+import { ColorSwatch }    from '../components/ColorSwatch.js';
+import { isHex }          from '../components/utilities.js';
 
 /**
  * Final review of tokens after fine-tuning
  */
-export function AcceptPhase({
+export const AcceptPhase = ({
   dataObject,
   exportOpts, setExportOpts,
   setBuildPhase,
-}) {
+}) => {
+
   return (
     <Box flexDirection="row" padding={1}>
       <Sidebar
@@ -29,9 +28,7 @@ export function AcceptPhase({
 
       <Box flexDirection="column" flexGrow={1}>
         <Box marginBottom={1}>
-          <Text bold color="white">
-            Review Changes
-          </Text>
+          <Text bold color="white">Review Changes</Text>
         </Box>
 
         <Box flexDirection="column" marginBottom={1}>
@@ -40,13 +37,10 @@ export function AcceptPhase({
             return (
               <Box key={t.key}>
                 <Text dimColor>{t.label.toLowerCase().padEnd(20)}</Text>
-                {isHex(value) ? (
-                  <ColorSwatch value={value} />
-                ) : (
-                  <Text color="white">
-                    {value && value.length > 30 ? value.slice(0, 30) + '…' : value}
-                  </Text>
-                )}
+                {isHex(value)
+                  ? <ColorSwatch value={value} />
+                  : <Text color="white">{value?.length > 30 ? value.slice(0, 30) + '…' : value}</Text>
+                }
               </Box>
             );
           })}
@@ -67,6 +61,7 @@ export function AcceptPhase({
       </Box>
     </Box>
   );
-}
+
+};
 
 AcceptPhase.UID = 'REVIEW';

@@ -1,16 +1,17 @@
-import { useState }          from 'react';
-import { Box, Text, useInput } from 'ink';
-import { TOKEN_PRESETS }      from '../data/designData.js';
-import { truncate }           from './utilities.js';
-import { SelectionItem
-       , InputSelect
-       , InputText 
-       } from './SharedItems.js';
+import { useState }      from 'react';
+import { Box }           from 'ink';
+import { Text }          from 'ink';
+import { useInput }      from 'ink';
+import { TOKEN_PRESETS } from '../data/designData.js';
+import { truncate }      from './utilities.js';
+import { InputText }     from './SharedItems.js';
+import { InputSelect }   from './SharedItems.js';
 
 /**
  * Aesthetic picker for design tokens with custom value support
  */
 export const TokenPicker = ({ label, tokenKey, initialValue, onSubmit, setCustomMode }) => {
+
   const [isCustom, setCustom] = useState(false);
   const [val, setVal]         = useState('');
 
@@ -20,16 +21,16 @@ export const TokenPicker = ({ label, tokenKey, initialValue, onSubmit, setCustom
     ];
 
   useInput((_, key) => {
-    if (isCustom && key.escape) { 
-      setCustom(false); 
-      setCustomMode(false); 
+    if (isCustom && key.escape) {
+      setCustom(false);
+      setCustomMode(false);
     }
   });
 
   const handleSelect = (item) => {
-    if (item.value === 'CUSTOM') { 
-      setCustom(true); 
-      setCustomMode(true); 
+    if (item.value === 'CUSTOM') {
+      setCustom(true);
+      setCustomMode(true);
     } else {
       onSubmit(item.value);
     }
@@ -48,7 +49,6 @@ export const TokenPicker = ({ label, tokenKey, initialValue, onSubmit, setCustom
         />
       ) : (
         <Box flexDirection="column">
-          {/* Header/Context for custom entry */}
           <Box marginBottom={1} flexDirection="column">
             {presets.map(p => (
               <Box key={p.key}>
@@ -56,18 +56,19 @@ export const TokenPicker = ({ label, tokenKey, initialValue, onSubmit, setCustom
               </Box>
             ))}
           </Box>
-          
+
           <Box gap={1} marginBottom={1}>
             <Text color="cyan" bold>→</Text>
-            <InputText 
-              value={val} 
-              onChange={setVal} 
-              onSubmit={() => { onSubmit(val); setCustomMode(false); }} 
-              placeholder="Enter custom value" 
+            <InputText
+              value={val}
+              onChange={setVal}
+              onSubmit={() => { onSubmit(val); setCustomMode(false); }}
+              placeholder="Enter custom value"
             />
           </Box>
         </Box>
       )}
     </Box>
   );
+
 };

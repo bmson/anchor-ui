@@ -1,6 +1,10 @@
-import { useState, useEffect }    from 'react';
-import { Box, Text, useInput }   from 'ink';
-import { clamp, getSliderLayout } from './utilities.js';
+import { useState }        from 'react';
+import { useEffect }       from 'react';
+import { Box }             from 'ink';
+import { Text }            from 'ink';
+import { useInput }        from 'ink';
+import { clamp }           from './utilities.js';
+import { getSliderLayout } from './utilities.js';
 
 const TRACK_WIDTH = 22;
 
@@ -14,6 +18,7 @@ export const InputRange = ({
   step = 1, unit = '',
   onSubmit,
 }) => {
+
   const [val, setVal] = useState(initialValue);
 
   // Sync state if initialValue changes externally
@@ -57,4 +62,5 @@ export const InputRange = ({
       </Box>
     </Box>
   );
+
 };

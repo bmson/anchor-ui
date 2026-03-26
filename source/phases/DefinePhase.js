@@ -11,28 +11,30 @@ import { InputSelect }         from '../components/SharedItems.js';
 /**
  * Wizard flow for high-level design definition
  */
-export function DefinePhase({
+export const DefinePhase = ({
   name,
   guideIndex, setGuideIndex,
   dataObject, setDataObject,
   setBuildPhase,
-}) {
+}) => {
+
   const activeStep = WIZARD_STEPS[guideIndex];
 
+  // Handle selection of a wizard option and progress to next step
   const handleSelect = (item) => {
-    const cleanValue = item.value.replace(' (Recommended)', '');
+    const cleanValue  = item.value.replace(' (Recommended)', '');
     let newDataObject = { ...dataObject };
 
     // Auto-inject defaults and styles if it's the first step (Style Selection)
     if (activeStep.key === 'STYLE_NAME') {
       const styleConfig = DESIGN_DATA.styles[cleanValue];
-      newDataObject = {
-        ...newDataObject,
-        ...DESIGN_DATA.defaults,
-        ...styleConfig.tokens,
-        ...styleConfig.recommended,
-        STYLE_NAME: name || cleanValue, // Preserve CLI name if provided
-      };
+      newDataObject =
+        { ...newDataObject
+        , ...DESIGN_DATA.defaults
+        , ...styleConfig.tokens
+        , ...styleConfig.recommended
+        , STYLE_NAME: name || cleanValue
+        };
     } else {
       newDataObject[activeStep.key] = cleanValue;
     }
@@ -49,19 +51,16 @@ export function DefinePhase({
 
   // Map wizard choices to SelectInput items with descriptions
   const selectItems = activeStep.choices.map((choice) => {
-    const description =
-      activeStep.key === 'STYLE_NAME'
-        ? DESIGN_DATA.styles[choice]?.tokens?.STYLE_PHILOSOPHY || ''
-        : DESIGN_DESCRIPTIONS[activeStep.key]?.[choice] || '';
+    const isRecommended = dataObject[activeStep.key] === choice && guideIndex > 0;
 
-    return {
-      label:
-        dataObject[activeStep.key] === choice && guideIndex > 0
-          ? `${choice} (Recommended)`
-          : choice,
-      value: choice,
-      description,
-    };
+    const description = activeStep.key === 'STYLE_NAME'
+      ? DESIGN_DATA.styles[choice]?.tokens?.STYLE_PHILOSOPHY || ''
+      : DESIGN_DESCRIPTIONS[activeStep.key]?.[choice] || '';
+
+    return { label: isRecommended ? `${choice} (Recommended)` : choice
+           , value: choice
+           , description
+           };
   });
 
   const initialIndex = Math.max(
@@ -80,9 +79,7 @@ export function DefinePhase({
 
       <Box flexDirection="column" flexGrow={1}>
         <Box marginBottom={1}>
-          <Text bold color="white">
-            {activeStep.title}
-          </Text>
+          <Text bold color="white">{activeStep.title}</Text>
         </Box>
 
         <InputSelect
@@ -95,6 +92,7 @@ export function DefinePhase({
       </Box>
     </Box>
   );
-}
+
+};
 
 DefinePhase.UID = 'WIZARD';
