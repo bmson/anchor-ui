@@ -1,9 +1,9 @@
 {
-  "name": "@anchor-org/cli",
+  "name": "@anchor-org/anchor-cli",
   "version": "0.0.0",
   "license": "MIT",
   "bin": {
-    "anchor": "dist/cli.js"
+    "anchor-cli": "dist/cli.js"
   },
   "type": "module",
   "engines": {
@@ -13,7 +13,7 @@
     "build": "node esbuild.config.js",
     "dev": "node esbuild.config.js --watch",
     "link": "npm run build && npm link",
-    "unlink": "npm unlink -g @anchor-org/cli",
+    "unlink": "npm unlink -g @anchor-org/anchor-cli",
     "prepublishOnly": "npm run build"
   },
   "files": [

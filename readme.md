@@ -5,20 +5,20 @@ Interactive CLI for generating design token skill files. Walk through a guided w
 ## Quick Start
 
 ```bash
-npx @anchor-org/cli
+npx @anchor-org/anchor-cli
 ```
 
 ## Install
 
 ```bash
-npm install --global @anchor-org/cli
+npm install --global @anchor-org/anchor-cli
 ```
 
 Then run it anywhere:
 
 ```bash
 anchor
-anchor --name "My Brand"
+anchor-cli --name "My Brand"
 ```
 
 ## Options
