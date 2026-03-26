@@ -51,6 +51,7 @@ export const ModifyPhase = ({
 
       <Box flexDirection="column" flexGrow={1}>
         <Component
+          key={key}
           {...tokenProps}
           initialValue={dataObject[key]}
           onSubmit={onSubmit}

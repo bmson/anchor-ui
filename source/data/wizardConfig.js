@@ -48,9 +48,9 @@ export const TOKENS_TO_EDIT =
   , { key: 'COLOR_ERROR',      label: 'Error Color',          uiType: 'color' }
   , { key: 'COLOR_SUCCESS',    label: 'Success Color',        uiType: 'color' }
 
-  , { key: 'RADIUS_MAIN',      label: 'Border Radius',        uiType: 'slider', min: 0, max: 48, step: 2 }
-  , { key: 'BORDER_WEIGHT',    label: 'Border Weight',        uiType: 'slider', min: 0, max: 10, step: 1 }
-  , { key: 'BASE_UNIT',        label: 'Base Spacing Unit',    uiType: 'slider', min: 2, max: 16, step: 1 }
+  , { key: 'RADIUS_MAIN',      label: 'Border Radius',        uiType: 'slider', min: 0, max: 48, step: 2, unit: 'px' }
+  , { key: 'BORDER_WEIGHT',    label: 'Border Weight',        uiType: 'slider', min: 0, max: 10, step: 1, unit: 'px' }
+  , { key: 'BASE_UNIT',        label: 'Base Spacing Unit',    uiType: 'slider', min: 2, max: 16, step: 1, unit: 'px' }
 
   , { key: 'SHADOW_MAIN',      label: 'Box Shadow',           uiType: 'smart' }
   , { key: 'BLUR_MAIN',        label: 'Backdrop Blur',        uiType: 'smart' }

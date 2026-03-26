@@ -29,25 +29,28 @@ export const useKeyboard = ({
     , EXPORT:   { when: exportOpts.step, set: setExportOpts, to: { ...exportOpts, step: 0 } }
     };
 
+  const exitTo =
+    { ASSESS:   'WIZARD'
+    , FINETUNE: 'ASSESS'
+    , REVIEW:   'FINETUNE'
+    , EXPORT:   exportOpts.from || 'ASSESS'
+    };
+
+  // When exiting to a parent phase, restore its last step index
   const resetIndex =
     { ASSESS: { set: setGuideIndex, to: WIZARD_STEPS.length - 1 }
     , REVIEW: { set: setTokenIndex, to: TOKENS_TO_EDIT.length - 1 }
     };
 
-  const exitTo =
-    { FINETUNE: 'ASSESS'
-    , EXPORT:   exportOpts.from || 'ASSESS'
-    };
-
-  // Try each strategy in order: step within phase → reset index → exit phase
+  // Try each strategy in order: step within phase → exit to parent phase
   const goBack = () => {
     const step  = stepBack[buildPhase];
     const reset = resetIndex[buildPhase];
     const exit  = exitTo[buildPhase];
 
     if (step?.when) return step.set(step.to);
-    if (reset)      return reset.set(reset.to);
-    if (exit)       setBuildPhase(exit);
+    if (reset) reset.set(reset.to);
+    if (exit)  setBuildPhase(exit);
   }
 
   useInput((_, key) => {

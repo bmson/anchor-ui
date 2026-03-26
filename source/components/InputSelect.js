@@ -31,9 +31,9 @@ export const InputSelect = ({
 
   return (
     <Box flexDirection="column">
-      {items.map((item, itemIndex) => (
+      {items.map(({ key, ...item }, itemIndex) => (
         <Item
-          key={item.key || item.value || itemIndex}
+          key={key || item.value || itemIndex}
           {...item}
           isSelected={itemIndex === index}
         />

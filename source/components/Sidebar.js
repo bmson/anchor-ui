@@ -2,18 +2,11 @@ import { Box }         from 'ink';
 import { Text }        from 'ink';
 import { formatLabel } from './utilities.js';
 
-const PHASE_LABELS =
-  { WIZARD:   'wizard'
-  , FINETUNE: 'fine-tune'
-  , EXPORT:   'export'
-  };
-
 /**
  * Sidebar displaying current phase and step progress
  */
 export const Sidebar = ({ current, buildPhase, wizardSteps = [], tokenSteps = [] }) => {
 
-  const label      = PHASE_LABELS[buildPhase] || 'process';
   const reviewStep = { key: 'review', label: 'review' };
 
   // Append a review step to whichever list is active
@@ -28,15 +21,10 @@ export const Sidebar = ({ current, buildPhase, wizardSteps = [], tokenSteps = []
       <Box marginBottom={1} flexDirection="column">
         <Box>
           <Text color="cyan" bold>⛊ </Text>
-          <Text color="white" bold>ANCHOR</Text>
+          <Text color="white" bold>ANCHOR AI</Text>
         </Box>
         <Text dimColor> design system</Text>
         <Text dimColor>{'─'.repeat(20)}</Text>
-      </Box>
-
-      {/* Active phase name */}
-      <Box marginBottom={1}>
-        <Text color="magenta" bold italic>{label.toUpperCase()}</Text>
       </Box>
 
       {/* Step list with progress indicators */}

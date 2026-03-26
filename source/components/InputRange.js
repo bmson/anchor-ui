@@ -19,10 +19,10 @@ export const InputRange = ({
   onSubmit,
 }) => {
 
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(() => parseFloat(initialValue) || 0);
 
   // Sync if parent changes the initial value
-  useEffect(() => setValue(initialValue), [initialValue]);
+  useEffect(() => setValue(parseFloat(initialValue) || 0), [initialValue]);
 
   // Hold shift for 5× speed
   const nudge = (direction, key) => {
@@ -33,14 +33,14 @@ export const InputRange = ({
   useNav(
     { leftArrow:  (key) => nudge(-1, key)
     , rightArrow: (key) => nudge(+1, key)
-    , return:     ()    => onSubmit?.(value)
+    , return:     ()    => onSubmit?.(`${value}${unit}`)
     }
   );
 
   const { before, after } = getSliderLayout(value, min, max, TRACK_WIDTH);
 
   return (
-    <Box flexDirection="column">
+    <Box flexDirection="column" width={60}>
 
       {/* Header: label and live value */}
       <Box marginBottom={1}>
@@ -48,15 +48,15 @@ export const InputRange = ({
         <Text color="cyan"> {value}{unit}</Text>
       </Box>
 
-      {/* Track: min ━━█━━━ max */}
+      {/* Track: min ━━┫━━━ max */}
       <Box alignItems="center">
         <Box width={6}>
           <Text dimColor>{min}{unit}</Text>
         </Box>
 
-        <Box marginX={1}>
+        <Box width={TRACK_WIDTH + 1} marginX={1}>
           <Text color="cyan">{before}</Text>
-          <Text color="white">█</Text>
+          <Text color="cyan">┫</Text>
           <Text color="gray">{after}</Text>
         </Box>
 

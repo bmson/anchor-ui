@@ -64,10 +64,10 @@ export const ColorPicker = ({ label, initialValue, onSubmit }) => {
             </Box>
 
             {/* Track */}
-            <Text color={color}>
-              {before}
-              <Text color={lit}>●</Text>
-              {after}
+            <Text>
+              <Text color={color}>{before}</Text>
+              <Text color={color}>┫</Text>
+              <Text color="gray">{after}</Text>
             </Text>
 
             {/* Numeric value */}
