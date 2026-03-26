@@ -1,35 +1,63 @@
-export const clamp = (val, min, max) =>
-  Math.min(max, Math.max(min, val));
+import { useInput } from 'ink';
 
-export const isHex = (str) =>
-  /^#([a-f\d]{3}|[a-f\d]{6})$/i.test(str);
+/**
+ * Math helpers
+ */
 
-export const toHex = (val) =>
-  clamp(0, 255, val).toString(16).padStart(2, '0');
+export const clamp = (value, min, max) =>
+  Math.min(max, Math.max(min, value));
+
+/**
+ * Color helpers
+ */
+
+export const isHex = (string) =>
+  /^#([a-f\d]{3}|[a-f\d]{6})$/i.test(string);
+
+export const toHex = (value) =>
+  clamp(0, 255, value).toString(16).padStart(2, '0');
 
 export const toRgb = (hex) => {
   const match = hex?.match(/^#?([a-f\d]{1,2})([a-f\d]{1,2})([a-f\d]{1,2})$/i);
 
   if (!match) return { r: 128, g: 128, b: 128 };
 
-  const [r, g, b] = match.slice(1).map(x =>
-    parseInt(x.length === 1 ? x + x : x, 16)
+  // Expand shorthand (#abc → #aabbcc) then parse each channel
+  const [r, g, b] = match.slice(1).map(channel =>
+    parseInt(channel.length === 1 ? channel + channel : channel, 16)
   );
 
   return { r, g, b };
 }
 
-export const truncate = (str, limit = 40) =>
-  str?.length > limit ? `${str.slice(0, limit)}…` : str;
+/**
+ * String helpers
+ */
 
-export const formatLabel = (str) =>
-  str.replace(/_/g, ' ').toLowerCase();
+export const truncate = (string, limit = 40) =>
+  string?.length > limit ? `${string.slice(0, limit)}…` : string;
 
-export const getSliderLayout = (val, min, max, width) => {
-  const pos = Math.round(((val - min) / (max - min)) * (width - 1));
+export const formatLabel = (string) =>
+  string.replace(/_/g, ' ').toLowerCase();
 
-  return { before: '━'.repeat(Math.max(0, pos))
-         , after:  '━'.repeat(Math.max(0, width - 1 - pos))
-         , pos
+/**
+ * UI helpers
+ */
+
+// Build the ━━●━━━ slider track segments for a given value
+export const getSliderLayout = (value, min, max, width) => {
+  const position = Math.round(((value - min) / (max - min)) * (width - 1));
+
+  return { before: '━'.repeat(Math.max(0, position))
+         , after:  '━'.repeat(Math.max(0, width - 1 - position))
+         , position
          };
+}
+
+// Map ink key names (upArrow, return, etc.) to handler functions
+export const useNav = (handlers) => {
+  useInput((_, key) => {
+    const action = Object.keys(handlers).find(name => key[name]);
+    if (action) handlers[action](key);
+  });
 }

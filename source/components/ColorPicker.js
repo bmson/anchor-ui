@@ -1,10 +1,10 @@
 import { useState }        from 'react';
 import { Box }             from 'ink';
 import { Text }            from 'ink';
-import { useInput }        from 'ink';
 import { clamp }           from './utilities.js';
 import { toRgb }           from './utilities.js';
 import { toHex }           from './utilities.js';
+import { useNav }          from './utilities.js';
 import { getSliderLayout } from './utilities.js';
 
 const STEP        = 5;
@@ -16,60 +16,68 @@ const CHANNELS    = ['r', 'g', 'b'];
  */
 export const ColorPicker = ({ label, initialValue, onSubmit }) => {
 
-  const [rgb, setRgb] = useState(() => toRgb(initialValue));
-  const [idx, setIdx] = useState(0);
+  const [rgb, setRgb]     = useState(() => toRgb(initialValue));
+  const [index, setIndex] = useState(0);
 
-  const active = CHANNELS[idx];
-  const hex    = `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+  // Currently focused channel and computed hex output
+  const channel = CHANNELS[index];
+  const hex     = `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
 
-  useInput((_, key) => {
-    const delta = STEP * (key.shift ? 5 : 1);
+  // Shift the active channel by ±delta, hold shift for 5× speed
+  const nudge = (direction, key) => {
+    const delta = STEP * (key.shift ? 5 : 1) * direction;
+    setRgb(prev => ({ ...prev, [channel]: clamp(prev[channel] + delta, 0, 255) }));
+  };
 
-    const nav =
-      { upArrow:    () => setIdx(i => Math.max(0, i - 1))
-      , downArrow:  () => setIdx(i => Math.min(2, i + 1))
-      , leftArrow:  () => setRgb(p => ({ ...p, [active]: clamp(p[active] - delta, 0, 255) }))
-      , rightArrow: () => setRgb(p => ({ ...p, [active]: clamp(p[active] + delta, 0, 255) }))
-      , return:     () => onSubmit(hex)
-      };
-
-    const action = Object.keys(nav).find(k => key[k]);
-    if (action) nav[action]();
-  });
+  useNav(
+    { upArrow:    ()    => setIndex(prev => Math.max(0, prev - 1))
+    , downArrow:  ()    => setIndex(prev => Math.min(2, prev + 1))
+    , leftArrow:  (key) => nudge(-1, key)
+    , rightArrow: (key) => nudge(+1, key)
+    , return:     ()    => onSubmit(hex)
+    }
+  );
 
   return (
     <Box flexDirection="column" width={60}>
+
       <Box marginBottom={1}>
         <Text bold color="white">{label.toUpperCase()}</Text>
         <Text color="gray"> ({hex})</Text>
       </Box>
 
-      {CHANNELS.map((ch, i) => {
-        const isActive = i === idx;
-        const val      = rgb[ch];
-        const { before, after } = getSliderLayout(val, 0, 255, TRACK_WIDTH);
+      {/* One slider row per RGB channel */}
+      {CHANNELS.map((name, channelIndex) => {
+        const active = channelIndex === index;
+        const value  = rgb[name];
+        const color  = active ? 'cyan'  : 'gray';
+        const lit    = active ? 'white' : 'gray';
+
+        const { before, after } = getSliderLayout(value, 0, 255, TRACK_WIDTH);
 
         return (
-          <Box key={ch}>
+          <Box key={name}>
+
+            {/* Channel label */}
             <Box width={3}>
-              <Text color={isActive ? 'cyan' : 'gray'} bold={isActive}>
-                {ch.toUpperCase()}
-              </Text>
+              <Text color={color} bold={active}>{name.toUpperCase()}</Text>
             </Box>
 
-            <Text color={isActive ? 'cyan' : 'gray'}>
+            {/* Track */}
+            <Text color={color}>
               {before}
-              <Text color={isActive ? 'white' : 'gray'}>●</Text>
+              <Text color={lit}>●</Text>
               {after}
             </Text>
 
+            {/* Numeric value */}
             <Box width={6} marginLeft={1}>
-              <Text color={isActive ? 'white' : 'gray'}>
-                {String(val).padStart(3)}
-              </Text>
+              <Text color={lit}>{String(value).padStart(3)}</Text>
             </Box>
 
+            {/* Live color preview */}
             <Text color={hex}> ███████</Text>
+
           </Box>
         );
       })}

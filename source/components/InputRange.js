@@ -2,8 +2,8 @@ import { useState }        from 'react';
 import { useEffect }       from 'react';
 import { Box }             from 'ink';
 import { Text }            from 'ink';
-import { useInput }        from 'ink';
 import { clamp }           from './utilities.js';
+import { useNav }          from './utilities.js';
 import { getSliderLayout } from './utilities.js';
 
 const TRACK_WIDTH = 22;
@@ -19,32 +19,36 @@ export const InputRange = ({
   onSubmit,
 }) => {
 
-  const [val, setVal] = useState(initialValue);
+  const [value, setValue] = useState(initialValue);
 
-  useEffect(() => setVal(initialValue), [initialValue]);
+  // Sync if parent changes the initial value
+  useEffect(() => setValue(initialValue), [initialValue]);
 
-  useInput((_, key) => {
-    const delta = step * (key.shift ? 5 : 1);
+  // Hold shift for 5× speed
+  const nudge = (direction, key) => {
+    const delta = step * (key.shift ? 5 : 1) * direction;
+    setValue(prev => clamp(prev + delta, min, max));
+  };
 
-    const nav =
-      { leftArrow:  () => setVal(v => clamp(v - delta, min, max))
-      , rightArrow: () => setVal(v => clamp(v + delta, min, max))
-      , return:     () => onSubmit?.(val)
-      };
+  useNav(
+    { leftArrow:  (key) => nudge(-1, key)
+    , rightArrow: (key) => nudge(+1, key)
+    , return:     ()    => onSubmit?.(value)
+    }
+  );
 
-    const action = Object.keys(nav).find(k => key[k]);
-    if (action) nav[action]();
-  });
-
-  const { before, after } = getSliderLayout(val, min, max, TRACK_WIDTH);
+  const { before, after } = getSliderLayout(value, min, max, TRACK_WIDTH);
 
   return (
     <Box flexDirection="column">
+
+      {/* Header: label and live value */}
       <Box marginBottom={1}>
         <Text bold color="white">{label.toUpperCase()}</Text>
-        <Text color="cyan"> {val}{unit}</Text>
+        <Text color="cyan"> {value}{unit}</Text>
       </Box>
 
+      {/* Track: min ━━█━━━ max */}
       <Box alignItems="center">
         <Box width={6}>
           <Text dimColor>{min}{unit}</Text>

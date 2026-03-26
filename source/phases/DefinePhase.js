@@ -5,8 +5,8 @@ import { DESIGN_DESCRIPTIONS } from '../data/designData.js';
 import { WIZARD_STEPS }        from '../data/wizardConfig.js';
 import { TOKENS_TO_EDIT }      from '../data/wizardConfig.js';
 import { Sidebar }             from '../components/Sidebar.js';
-import { OptionItem }          from '../components/SharedItems.js';
-import { InputSelect }         from '../components/SharedItems.js';
+import { OptionItem }          from '../components/SelectionItem.js';
+import { InputSelect }         from '../components/InputSelect.js';
 
 /**
  * Wizard flow for high-level design definition
@@ -18,14 +18,16 @@ export const DefinePhase = ({
   setBuildPhase,
 }) => {
 
-  const step = WIZARD_STEPS[guideIndex];
+  const step        = WIZARD_STEPS[guideIndex];
+  const isStyleStep = step.key === 'STYLE_NAME';
+  const isLastStep  = guideIndex + 1 >= WIZARD_STEPS.length;
 
   const handleSelect = (item) => {
     const choice = item.value.replace(' (Recommended)', '');
     let   next   = { ...dataObject };
 
     // Inject full style config on the first step
-    if (step.key === 'STYLE_NAME') {
+    if (isStyleStep) {
       const style = DESIGN_DATA.styles[choice];
       next =
         { ...next
@@ -40,21 +42,22 @@ export const DefinePhase = ({
 
     setDataObject(next);
 
-    if (guideIndex + 1 < WIZARD_STEPS.length) {
-      setGuideIndex(guideIndex + 1);
-    } else {
+    if (isLastStep) {
       setBuildPhase('ASSESS');
+    } else {
+      setGuideIndex(guideIndex + 1);
     }
   };
 
+  // Build items with recommended marker and descriptions
   const items = step.choices.map((choice) => {
-    const recommended = dataObject[step.key] === choice && guideIndex > 0;
+    const isRecommended = dataObject[step.key] === choice && guideIndex > 0;
 
-    const description = step.key === 'STYLE_NAME'
+    const description = isStyleStep
       ? DESIGN_DATA.styles[choice]?.tokens?.STYLE_PHILOSOPHY || ''
       : DESIGN_DESCRIPTIONS[step.key]?.[choice] || '';
 
-    return { label: recommended ? `${choice} (Recommended)` : choice
+    return { label: isRecommended ? `${choice} (Recommended)` : choice
            , value: choice
            , description
            };

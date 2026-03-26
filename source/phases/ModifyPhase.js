@@ -7,6 +7,7 @@ import { ColorPicker }    from '../components/ColorPicker.js';
 import { TokenPicker }    from '../components/TokenPicker.js';
 import { TokenEditor }    from '../components/TokenEditor.js';
 
+// Map each token's uiType to its input component
 const UI_COMPONENTS =
   { color:  ColorPicker
   , slider: InputRange
@@ -25,14 +26,18 @@ export const ModifyPhase = ({
 }) => {
 
   const { uiType, key, ...tokenProps } = TOKENS_TO_EDIT[tokenIndex];
+
   const Component = UI_COMPONENTS[uiType];
   const isLast    = tokenIndex + 1 >= TOKENS_TO_EDIT.length;
 
   const onSubmit = (value) => {
     setDataObject({ ...dataObject, [key]: value });
 
-    if (isLast) setBuildPhase('REVIEW');
-    else        setTokenIndex(tokenIndex + 1);
+    if (isLast) {
+      setBuildPhase('REVIEW');
+    } else {
+      setTokenIndex(tokenIndex + 1);
+    }
   };
 
   return (

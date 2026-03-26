@@ -2,13 +2,21 @@ import { Text }  from 'ink';
 import { isHex } from './utilities.js';
 
 /**
- * Displays a color hex value along with a visual circular swatch
+ * Inline color preview — hex swatch or plain text fallback
  */
-export const ColorSwatch = ({ value }) => isHex(value)
-  ? (
-      <>
-        <Text color="white">{value} </Text>
-        <Text color={value}>●</Text>
-      </>
-    )
-  : <Text color="gray">{value}</Text>;
+export const ColorSwatch = ({ value }) => {
+
+  const isPlain = !isHex(value);
+
+  if (isPlain) {
+    return <Text color="gray">{value}</Text>;
+  }
+
+  return (
+    <>
+      <Text color="white">{value} </Text>
+      <Text color={value}>●</Text>
+    </>
+  );
+
+};

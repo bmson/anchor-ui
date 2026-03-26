@@ -2,7 +2,7 @@ import { Box }  from 'ink';
 import { Text } from 'ink';
 
 /**
- * Display the success message and export path
+ * Success message and export path
  */
 export const ResultPhase = ({ targetPath = 'anchor.md' }) => (
 

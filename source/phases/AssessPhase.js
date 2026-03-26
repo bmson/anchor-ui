@@ -3,8 +3,8 @@ import { Text }           from 'ink';
 import { WIZARD_STEPS }   from '../data/wizardConfig.js';
 import { TOKENS_TO_EDIT } from '../data/wizardConfig.js';
 import { Sidebar }        from '../components/Sidebar.js';
-import { ButtonItem }     from '../components/SharedItems.js';
-import { InputSelect }    from '../components/SharedItems.js';
+import { ButtonItem }     from '../components/SelectionItem.js';
+import { InputSelect }    from '../components/InputSelect.js';
 import { ColorSwatch }    from '../components/ColorSwatch.js';
 
 /**
@@ -16,6 +16,7 @@ export const AssessPhase = ({
   setBuildPhase,
 }) => {
 
+  // Summary of the wizard selections
   const summaryKeys =
     [ { key: 'style',      value: dataObject.STYLE_NAME }
     , { key: 'rhythm',     value: dataObject.RHYTHM_TYPE }
@@ -27,11 +28,23 @@ export const AssessPhase = ({
     , { key: 'a11y',       value: dataObject.A11Y_LEVEL }
     ];
 
+  // Color tokens for the swatch preview
   const palette =
     [ { key: 'primary',    value: dataObject.PRIMARY_COLOR }
     , { key: 'surface',    value: dataObject.SURFACE_COLOR }
     , { key: 'background', value: dataObject.BACKGROUND_COLOR }
     ];
+
+  const handleSelect = (item) => {
+    const wantsFineTune = item.value;
+
+    if (wantsFineTune) {
+      setBuildPhase('FINETUNE');
+    } else {
+      setExportOpts({ ...exportOpts, skillName: dataObject.STYLE_NAME, from: 'ASSESS' });
+      setBuildPhase('EXPORT');
+    }
+  };
 
   return (
     <Box flexDirection="row" padding={1}>
@@ -68,17 +81,10 @@ export const AssessPhase = ({
 
         <InputSelect
           items={
-            [ { key: 'done', label: 'Export',           value: false }
+            [ { key: 'done', label: 'Export',            value: false }
             , { key: 'tune', label: 'Fine-tune tokens', value: true }
             ]}
-          onSelect={(item) => {
-            if (item.value) {
-              setBuildPhase('FINETUNE');
-            } else {
-              setExportOpts({ ...exportOpts, skillName: dataObject.STYLE_NAME, from: 'ASSESS' });
-              setBuildPhase('EXPORT');
-            }
-          }}
+          onSelect={handleSelect}
           itemComponent={ButtonItem}
         />
       </Box>

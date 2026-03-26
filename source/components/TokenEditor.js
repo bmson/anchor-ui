@@ -1,10 +1,10 @@
 import { useState }  from 'react';
 import { Box }       from 'ink';
 import { Text }      from 'ink';
-import { InputText } from './SharedItems.js';
+import { InputText } from './InputText.js';
 
 /**
- * Aesthetic wrapper for design token text input
+ * Free-text input for a design token value
  */
 export const TokenEditor = ({ label, initialValue = '', onSubmit }) => {
 
